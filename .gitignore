@@ -1,21 +1,20 @@
-# Python
+# IDE
+.idea/
+*.iml
+
+# Python cache
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 
-# Test coverage
+# Test artifacts
+.pytest_cache/
 .coverage
 htmlcov/
 
-# Virtual environments
-venv/
-env/
-
-# VS Code / PyCharm
-.idea/
-.vscode/
-
-# OS files
+# OS
 .DS_Store
 Thumbs.db
+
+# Env
+.env/
+venv/
