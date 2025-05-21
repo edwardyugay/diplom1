@@ -1,15 +1,32 @@
-from unittest.mock import Mock
+import pytest
 from src.burger import Burger
+from src.bun import Bun
+from src.ingredient import Ingredient
 
-def test_burger_total_price_with_bun_and_ingredients():
-    bun = Mock(get_price=lambda: 100, get_name=lambda: "Булка")
-    meat = Mock(get_price=lambda: 300, get_name=lambda: "Мясо")
-    salad = Mock(get_price=lambda: 50, get_name=lambda: "Салат")
+@pytest.fixture
+def burger():
+    return Burger()
 
-    burger = Burger()
-    burger.add_bun(bun)
-    burger.add_ingredient(meat)
-    burger.add_ingredient(salad)
+@pytest.fixture
+def bun():
+    return Bun("Булка", "bun", 2.0)
 
-    assert burger.get_total_price() == 2 * 100 + 300 + 50
-    assert burger.get_ingredients_names() == ["Мясо", "Салат"]
+@pytest.fixture
+def ingredient1():
+    return Ingredient("Сыр", "main", 1.0)
+
+@pytest.fixture
+def ingredient2():
+    return Ingredient("Соус", "sauce", 0.5)
+
+def test_add_and_remove_ingredient(burger, ingredient1):
+    burger.add_ingredient(ingredient1)
+    assert burger.ingredients == [ingredient1]
+    burger.remove_ingredient(0)
+    assert burger.ingredients == []
+
+def test_move_ingredient(burger, ingredient1, ingredient2):
+    burger.add_ingredient(ingredient1)
+    burger.add_ingredient(ingredient2)
+    burger.move_ingredient(0, 1)
+    assert burger.ingredients == [ingredient2, ingredient1]
