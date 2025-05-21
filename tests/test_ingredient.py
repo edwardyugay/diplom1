@@ -1,12 +1,15 @@
 import pytest
 from src.ingredient import Ingredient
 
-@pytest.mark.parametrize("name, category, price", [
-    ("Мясо", "main", 300),
-    ("Салат", "vegetable", 50),
-])
-def test_ingredient_attributes(name, category, price):
-    ing = Ingredient(name, category, price)
-    assert ing.get_name() == name
-    assert ing.get_category() == category
-    assert ing.get_price() == price
+@pytest.fixture
+def sample_ingredient():
+    return Ingredient("Соус барбекю", "sauce", 1.0)
+
+def test_ingredient_get_name(sample_ingredient):
+    assert sample_ingredient.get_name() == "Соус барбекю"
+
+def test_ingredient_get_category(sample_ingredient):
+    assert sample_ingredient.get_category() == "sauce"
+
+def test_ingredient_get_price(sample_ingredient):
+    assert sample_ingredient.get_price() == 1.0
