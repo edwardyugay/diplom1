@@ -1,13 +1,25 @@
-from unittest.mock import Mock
+import pytest
+from src.bun import Bun
+from src.ingredient import Ingredient
 from src.database import Database
 
-def test_database_add_and_get_buns_ingredients():
+@pytest.fixture
+def bun():
+    return Bun("Булка кунжутная", "bun", 2.0)
+
+@pytest.fixture
+def ingredient():
+    return Ingredient("Соус сырный", "sauce", 0.5)
+
+@pytest.fixture
+def db(bun, ingredient):
     db = Database()
-    bun = Mock()
-    ing = Mock()
-
     db.add_bun(bun)
-    db.add_ingredient(ing)
+    db.add_ingredient(ingredient)
+    return db
 
+def test_database_get_all_buns(db, bun):
     assert db.get_all_buns() == [bun]
-    assert db.get_all_ingredients() == [ing]
+
+def test_database_get_all_ingredients(db, ingredient):
+    assert db.get_all_ingredients() == [ingredient]
